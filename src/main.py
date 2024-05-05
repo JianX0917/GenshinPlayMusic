@@ -1,6 +1,11 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sun May  5 23:07:02 2024
+@author: jian0917
+"""
+
 from music import Music
-from player import Player
-import pyautogui
+
 
 def start_Genshin():
     pass

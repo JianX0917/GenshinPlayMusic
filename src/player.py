@@ -1,6 +1,13 @@
-from music import Music
+# -*- coding: utf-8 -*-
+"""
+Created on Sun May  5 23:07:02 2024
+@author: jian0917
+"""
 import pandas as pd
 import pyautogui
+
+from music import Music
+
 
 class Player:
     def __init__(self):

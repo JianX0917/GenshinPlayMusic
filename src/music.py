@@ -1,5 +1,10 @@
-import pandas as pd
+# -*- coding: utf-8 -*-
+"""
+Created on Sun May  5 23:07:02 2024
+@author: jian0917
+"""
 
+import pandas as pd
 
 class Music:
     # 简谱至键盘谱转换表
