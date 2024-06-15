@@ -6,6 +6,7 @@ Created on Sun May  5 23:07:02 2024
 
 import pandas as pd
 
+
 class Music:
     # 简谱至键盘谱转换表
     _dic = {"+1": "Q", "+2": "W", "+3": "E", "+4": "R", "+5": "T", "+6": "Y", "+7": "U",
@@ -49,8 +50,7 @@ class Music:
             name = file_path.split('/')[-1].split('.')[0].replace('_', ' ')
         return name
 
-        # 数据合法性检验
-
+    # 数据合法性检验
     def _check(self):
         exception_info = []
         for index, row in self.music.iterrows():
@@ -72,7 +72,6 @@ class Music:
 
     # 乐谱格式转换
     def _transfer(self):
-        # 格式检查及转换
         self.music['标记'] = self.music['标记'].apply(self._split_identifier)
         self.music['音符'] = self.music['音符'].apply(self._number_notation_to_key_notation)
 
@@ -108,8 +107,7 @@ class Music:
         except:
             raise MusicException("转换乐谱音符时出现错误")
 
-        # 定义第三列"间隔"的检查规则
-
+    # 定义第三列"间隔"的检查规则
     def _check_interval(self, interval):
         if interval <= 0:
             raise MusicException("音符间隔需大于0")
@@ -119,6 +117,7 @@ class Music:
 class MusicException(Exception):
     def __init__(self, message):
         super().__init__(message)
+
 
 if __name__ == '__main__':
     music = Music('resource/test.xlsx')
