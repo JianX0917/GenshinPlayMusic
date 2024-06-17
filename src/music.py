@@ -4,6 +4,8 @@ Created on Sun May  5 23:07:02 2024
 @author: jian0917
 """
 
+import logging
+
 import pandas as pd
 
 
@@ -34,8 +36,9 @@ class Music:
             self._check()  # 合法性检验
             self._transfer()  # 数据转换
             print("乐谱准备完成")
-        except MusicException as e:
-            print(e)  # 格式有误，打印错误信息
+        except MusicException as e:  # 格式有误，打印错误信息
+            # print(e)
+            logging.error(e)
 
     # 解析乐曲名
     def _get_name(self, file_path):
@@ -56,16 +59,16 @@ class Music:
         for index, row in self.music.iterrows():
             try:
                 self._split_identifier(row['标记'])
-            except:
-                exception_info.append("\n\t第{}行'标记'数据有误".format(self.excel_index))
+            except Exception as e:
+                exception_info.append("\n\t第{}行'标记'数据有误 : {}".format(self.excel_index, e))
             try:
                 self._number_notation_to_key_notation(row['音符'])
-            except:
-                exception_info.append("\n\t第{}行'音符'数据有误".format(self.excel_index))
+            except Exception as e:
+                exception_info.append("\n\t第{}行'音符'数据有误 : {}".format(self.excel_index, e))
             try:
                 self._check_interval(row['间隔'])
-            except:
-                exception_info.append("\n\t第{}行'停顿时长'数据有误".format(self.excel_index))
+            except Exception as e:
+                exception_info.append("\n\t第{}行'停顿时长'数据有误 : {}".format(self.excel_index, e))
             self.excel_index += 1
         if exception_info:
             raise MusicException("读取失败，对照下列信息请检查Excel中数据格式:" + "".join(exception_info))
@@ -77,8 +80,12 @@ class Music:
 
     # 定义第一列"标记"的分割规则
     def _split_identifier(self, identifier):
-        if identifier:
-            return str(identifier).split(",")
+        if not identifier:
+            return None
+        identifier = str(identifier)
+        if "，" in identifier:
+            raise MusicException("请不要使用全角逗号")
+        return identifier.split(",")
 
     # 定义第二列"音符"的转换规则
     def _number_notation_to_key_notation(self, number_notation):
@@ -96,6 +103,8 @@ class Music:
         try:
             if pd.isnull(number_notation):
                 return
+            if "，" in number_notation:
+                raise MusicException("请不要使用全角逗号")
             number_notation = number_notation.split(",")
             number_notation = sorted(number_notation, key=sort_key)
             key_notation = []
