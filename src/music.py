@@ -23,7 +23,7 @@ class Music:
         self.excel_index = 2  # 记录当前处理excel中的第几行，便于错误处理，第一行不读取，索引从2开始
         # 设置速度
         if self.music.empty or self.music.iloc[0, 0] != 's':
-            raise MusicException("乐谱格式有误")
+            raise MusicException("乐谱格式有误，第一行请输入速度")
         if self.music.iloc[0, 2] <= 0:
             raise MusicException("乐谱速度需大于0")
         self.speed = self.music.iloc[0, 2]
@@ -113,8 +113,8 @@ class Music:
                     continue
                 key_notation.append(self._dic[musical_notes])
             return key_notation
-        except:
-            raise MusicException("转换乐谱音符时出现错误")
+        except Exception as e:
+            raise MusicException("转换乐谱音符时出现错误 : {}".format(e))
 
     # 定义第三列"间隔"的检查规则
     def _check_interval(self, interval):
