@@ -15,6 +15,7 @@ class Player:
         self.speed = None
         self._music = None
         self.music_name = None
+        self.is_stopped = False  # 停止演奏记号，用于接收其他线程的通知来决定是否提前终止演奏
         print("演奏者就绪")
 
     # 加载乐谱
@@ -40,6 +41,9 @@ class Player:
             raise PlayerException("未设置演奏速度,无法演奏")
         print("开始演奏: 《" + self.music_name + "》\n")
         for i in range(len(self._music)):
+            # 判断是否需要终止演奏
+            if self.is_stopped:
+                return
             row = self._music.iloc[i]
             # 根据该行的标识符决定该行处理方式
             if "s" in row.iloc[0]:  # 变速
@@ -98,7 +102,7 @@ class PlayerException(Exception):
 
 
 if __name__ == '__main__':
-    music = Music('resource/轻涟.xlsx')
+    music = Music('resource/天空之城.xlsx')
     player = Player()
     player.get_music(music)
     pyautogui.sleep(5)
