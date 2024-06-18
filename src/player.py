@@ -24,6 +24,7 @@ class Player:
         self.speed = music.speed
         self._interval = 60 / self.speed
         self.music_name = music.name
+        self.is_stopped = False
         print("准备演奏: 《" + self.music_name + "》\n")
 
     # 更新速度值
