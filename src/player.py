@@ -9,16 +9,31 @@ import pyautogui
 from music import Music
 
 
+# Player类负责演奏乐谱，由于只有一个演奏者，因此设置为单例模式
 class Player:
+    _instance = None
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+
     def __init__(self):
         self._interval = None
         self.speed = None
         self._music = None
         self.music_name = None
         self.is_stopped = False  # 停止演奏记号，用于接收其他线程的通知来决定是否提前终止演奏
-        print("演奏者就绪")
+        # print("演奏者就绪")
 
-    # 加载乐谱
+    @staticmethod
+    def get_instance():
+        if Player._instance is None:
+            Player()
+        return Player._instance
+
+        # 加载乐谱
+
     def get_music(self, music):
         self._music = music.music
         self.speed = music.speed
@@ -104,7 +119,7 @@ class PlayerException(Exception):
 
 if __name__ == '__main__':
     music = Music('resource/天空之城.xlsx')
-    player = Player()
+    player = Player.get_instance()
     player.get_music(music)
     pyautogui.sleep(5)
     # player.move("backward", 3)
