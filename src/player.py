@@ -3,6 +3,8 @@
 Created on Sun May  5 23:07:02 2024
 @author: jian0917
 """
+import time
+
 import pandas as pd
 import pyautogui
 
@@ -24,6 +26,7 @@ class Player:
         self._music = None
         self.music_name = None
         self.is_stopped = False  # 停止演奏记号，用于接收其他线程的通知来决定是否提前终止演奏
+        self._play_time = 0  # 下一个音弹奏的时刻
         # print("演奏者就绪")
 
     @staticmethod
@@ -56,6 +59,10 @@ class Player:
         if not self._interval:
             raise PlayerException("未设置演奏速度,无法演奏")
         print("开始演奏: 《" + self.music_name + "》\n")
+        # 设定时间戳
+        self._play_time = time.perf_counter()
+        pyautogui.sleep(self._interval)  # 故意让第一次演奏时超时，使其实时间戳更新为实际演奏的时刻
+        # 开始演奏
         for i in range(len(self._music)):
             # 判断是否需要终止演奏
             if self.is_stopped:
@@ -68,24 +75,39 @@ class Player:
                 self._play_arpeggio(row.iloc[1], row.iloc[2], row.iloc[3])
             else:  # 正常演奏
                 self._play_one_row(row.iloc[1], row.iloc[2], row.iloc[3])
+        # 等最后一拍的时值结束再退出,便于统计实际演奏时长
+        while time.perf_counter() < self._play_time:
+            pass
 
     # 弹奏一行
     def _play_one_row(self, keys, pause, lyrics):
         if keys:
+            if time.perf_counter() - self._play_time > self._interval:  # 当超时大于一拍时，更新时间戳为此时时刻
+                self._play_time = time.perf_counter()
+            else:  # 基于时间戳控制演奏间隔
+                while time.perf_counter() < self._play_time:  # 没到该演奏的时候，就一直等着
+                    pass
             pyautogui.hotkey(keys)  # 弹奏音符
         if not pd.isnull(lyrics):
             print(lyrics, end="", flush=True)  # 打印歌词
         if pause:
-            pyautogui.sleep(pause * self._interval)  # 停顿
+            # pyautogui.sleep(pause * self._interval)  # 原有控制速度的方式，已作废
+            self._play_time += pause * self._interval
 
     # 弹奏琶音
     def _play_arpeggio(self, keys, pause, lyrics):
         keys_num = len(keys)
         arpeggio_interval = min(0.02, pause * self._interval / keys_num)  # 0.02时自定义的琶音间隔
-        pyautogui.typewrite(keys, interval=arpeggio_interval)
+        if time.perf_counter() - self._play_time > self._interval:  # 当超时大于一拍时，更新时间戳为此时时刻
+            self._play_time = time.perf_counter()
+        else:  # 基于时间戳控制演奏间隔
+            while time.perf_counter() < self._play_time:  # 没到该演奏的时候，就一直等着
+                pass
+        pyautogui.typewrite(keys, interval=arpeggio_interval)  # 弹奏琶音
         if not pd.isnull(lyrics):
             print(lyrics, end="", flush=True)  # 打印歌词
-        pyautogui.sleep(pause * self._interval - arpeggio_interval * keys_num)  # 剩余停顿
+        # pyautogui.sleep(pause * self._interval - arpeggio_interval * keys_num)  # 剩余停顿 : 已作废,改成基于时间戳控制演奏
+        self._play_time += pause * self._interval
 
     # 控制人物走路
     def walk(self, direction, time):
@@ -118,7 +140,7 @@ class PlayerException(Exception):
 
 
 if __name__ == '__main__':
-    music = Music('resource/天空之城.xlsx')
+    music = Music('resource/轻涟.xlsx')
     player = Player.get_instance()
     player.get_music(music)
     pyautogui.sleep(5)
