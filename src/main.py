@@ -76,10 +76,11 @@ def start_play_music():
 
 
 if __name__ == '__main__':
-    player = Player()
+    player = Player.get_instance()
     player.get_music(Music('resource/天空之城.xlsx'))
     start_Genshin()
     start_play_music()
-    pyautogui.sleep(3)
-    player.get_music(Music('resource/轻涟.xlsx'))
-    start_play_music()
+    # 演奏第二首音乐
+    # pyautogui.sleep(3)
+    # player.get_music(Music('resource/轻涟.xlsx'))
+    # start_play_music()

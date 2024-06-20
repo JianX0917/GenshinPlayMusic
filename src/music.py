@@ -34,7 +34,7 @@ class Music:
         # 简谱转换至键盘谱
         try:
             self._check()  # 合法性检验
-            self._transfer()  # 数据转换
+            self._convert_notation_to_keys()  # 数据转换
             print("乐谱准备完成")
         except MusicException as e:  # 格式有误，打印错误信息
             # print(e)
@@ -74,7 +74,7 @@ class Music:
             raise MusicException("读取失败，对照下列信息请检查Excel中数据格式:" + "".join(exception_info))
 
     # 乐谱格式转换
-    def _transfer(self):
+    def _convert_notation_to_keys(self):
         self.music['标记'] = self.music['标记'].apply(self._split_identifier)
         self.music['音符'] = self.music['音符'].apply(self._number_notation_to_key_notation)
 
