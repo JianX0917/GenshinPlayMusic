@@ -39,7 +39,7 @@ def start_Genshin():
         logging.error("路径错误，请输入正确的程序路径")
 
 
-# 监听键盘esc，若esc摁下，提前终止player的演奏;选择esc键作为提前结束的信号是保留了诗琴的esc退出的操作逻辑
+# 监听键盘esc，若esc摁下，提前终止player的演奏;选择esc键作为提前结束的信号是保留了诗琴esc退出的操作逻辑
 def _esc_listener(player):
     # 使用一个守护线程来监听键盘esc键的输入，如果esc被摁下，提前终止演奏
     def on_press(key):
