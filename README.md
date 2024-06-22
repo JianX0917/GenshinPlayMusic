@@ -53,11 +53,11 @@
    - 如果使用 main.py 实现自动启动原神的功能，请将代码中 start_Genshin() 函数中的 Genshin_path 修改为你的原神程序位置
 
 4. **运行脚本**：
-   - 使用管理员身份执行`main.py`脚本启动程序：
+   - 使用管理员身份执行 main.py 脚本启动程序：
      ```sh
      python src/main.py
      ```
-   - 或使用管理员身份执行`player.py`脚本实现基础的演奏功能：
+   - 或使用管理员身份执行 player.py 脚本实现基础的演奏功能：
      ```sh
      python src/player.py
      ```
@@ -68,12 +68,14 @@
 
 ## 致谢
 
-特别感谢乐曲曲谱的原作作者。`resource`目录中的每个乐谱文件都包含有关原作的信息。
+特别感谢乐曲曲谱的原作作者。 resource 目录中的每个乐谱文件都包含有关原作的信息。
   - 轻涟
-    - 原风物之诗琴谱：
+    - 原风物之诗琴谱：B站@指尖灬旋律丿
+    - 原谱链接：https://www.bilibili.com/read/cv27651860/?spm_id_from=333.999.collection.opus.click
     - 改编：JianX0917
   - 天空之城
-    - 原风物之诗琴谱：
+    - 原风物之诗琴谱：人人钢琴网
+    - 原谱链接：https://www.everyonepiano.cn/Piano-15237.html#
     - 改编：JianX0917
 
 ## 未来计划
