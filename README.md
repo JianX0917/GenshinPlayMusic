@@ -34,7 +34,7 @@
 
 - **main.py**：基于 Player 类实现了一些额外功能。
   - 自动启动原神游戏。
-  - 启动守护线程监听 esc 键输入以手动提前结束演奏。
+  - 启动守护线程监听 esc 键输入以手动中止演奏。
 
 ## 使用方法
 
@@ -70,13 +70,13 @@
 
 特别感谢乐曲曲谱的原作作者。 resource 目录中的每个乐谱文件都包含有关原作的信息。
   - 轻涟
-      - 原风物之诗琴谱：B站[@指尖灬旋律丿](https://space.bilibili.com/76052941?spm_id_from=333.976.0.0)
+    - 原风物之诗琴谱：B站[@指尖灬旋律丿](https://space.bilibili.com/76052941?spm_id_from=333.976.0.0)
     - 原谱链接：https://www.bilibili.com/read/cv27651860/?spm_id_from=333.999.collection.opus.click
-      - 改编：[JianX0917](https://github.com/JianX0917)
+    - 改编：[JianX0917](https://github.com/JianX0917)
   - 天空之城
-      - 原风物之诗琴谱：[人人钢琴网](https://www.everyonepiano.cn/)
+    - 原风物之诗琴谱：[人人钢琴网](https://www.everyonepiano.cn/)
     - 原谱链接：https://www.everyonepiano.cn/Piano-15237.html#
-      - 改编：[JianX0917](https://github.com/JianX0917)
+    - 改编：[JianX0917](https://github.com/JianX0917)
 
 ## 未来计划
 
