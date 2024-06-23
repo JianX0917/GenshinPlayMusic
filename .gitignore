@@ -1,2 +1,4 @@
 # idea目录
 .idea/
+# __pycache__
+src/__pycache__
